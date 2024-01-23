@@ -55,6 +55,3 @@ const getPrices = async (amountInHuman) => {
   const amountInHuman = "500";
   getPrices(amountInHuman);
   
-
-  // sdfskmdlkfnsmamv 
-  
