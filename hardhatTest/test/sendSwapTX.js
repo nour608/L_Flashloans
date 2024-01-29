@@ -1,6 +1,5 @@
 const { expect, assert } = require("chai");
-const { ethers, assertArgument } = require("ethers");
-//const { JsonRpcProvider } = require("ethers");
+const { ethers } = require("hardhat");
 
 const {
   addressFactory,
@@ -29,24 +28,24 @@ describe("Read and write to the Blockchain", () => {
   contractRouter = new ethers.Contract(addressRouter, routerABI, provider);
   contractToken = new ethers.Contract(addressFrom, erc20ABI, provider);
 
-//   const amountInHuman = "1";
-//   amountIn = ethers.utils.parseUnits(amountInHuman, decimals).toString();
+  const amountInHuman = "1";
+  amountIn = ethers.parseUnits(amountInHuman, decimals).toString();
 
-//   // get price information
-//   const getAmountOut = async () => {
-//     decimals = await contractToken.decimals();
+  // get price information
+  const getAmountOut = async () => {
+    decimals = await contractToken.decimals();
 
-//     const amountsOut = await contractRouter.getAmountsOut(amountIn, [
-//       addressFrom,
-//       addressTo,
-//     ]);
-
-//     return amountsOut[1].toString();
-//   };
+    const amountsOut = await contractRouter.getAmountsOut(amountIn, [
+      addressFrom,
+      addressTo,
+    ]);
+    
+    return amountsOut[1].toString();
+  };
 
   it("connects to a provider, factory, token and router", async () => {
     assert(provider.provider);
-      
+
     expect(await contractFactory.getAddress()).to.equal(
       "0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f"
     );
@@ -60,9 +59,13 @@ describe("Read and write to the Blockchain", () => {
     );
   });
 
-//   it("gets the price of amountsOut", async () => {
-//     const amount = await getAmountOut();
-//     assert(amount.toString());
-//     console.log(amount.toString());  
-//   });
+  it("gets the price of amountsOut", async () => {
+    const amount = await getAmountOut();
+    assert(amount);
+  });
+
+  it("sends a transactions, i.e. swaps a token", async () => {
+    const [ownerSigner] = await ethers.getSigners();
+    console.log(ownerSigner);
+  });
 });
