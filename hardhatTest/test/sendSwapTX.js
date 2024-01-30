@@ -66,6 +66,41 @@ describe("Read and write to the Blockchain", () => {
 
   it("sends a transactions, i.e. swaps a token", async () => {
     const [ownerSigner] = await ethers.getSigners();
-    console.log(ownerSigner);
+    const mainnetForkUniswapRouter = new ethers.Contract(
+      addressRouter,
+      routerABI,
+      ownerSigner
+    );
+
+    const myAddress = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
+
+    const amountOut = await getAmountOut();
+
+    const txSwap = await mainnetForkUniswapRouter.swapExactTokensForTokens(
+      amountIn, // amount In
+      amountOut, // amount out
+      [addressFrom, addressTo], // path
+      myAddress, // address to
+      Date.now() + 1000 * 60 * 50, // dateline 
+      {
+        gasLimit: 200000,
+        gasPrice: ethers.parseUnits("5.5", "gwei"),
+      } // gas 
+    );
+
+    assert(txSwap.hash);
+
+    const mainnetForkProvider = ethers.provider;
+    const txReceipt = await mainnetForkProvider.getTransactionReceipt(
+      txSwap.hash
+    );
+
+    console.log("");
+    console.log("SWAP TRANSACTION");
+    console.log(txSwap);
+
+    console.log("");
+    console.log("TRANSACTION RECEIPT");
+    console.log(txReceipt);
   });
 });
