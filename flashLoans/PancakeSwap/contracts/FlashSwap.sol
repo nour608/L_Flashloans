@@ -12,7 +12,7 @@ import "./interfaces/IUniswapV2Pair.sol";
 import "./interfaces/IUniswapV2Factory.sol";
 import "./interfaces/IERC20.sol";
 
-contract PanCakeFlashSwap {
+contract PancakeFlashSwap {
     using SafeERC20 for IERC20;
 
     // Factory and Routering Addresses
@@ -25,7 +25,6 @@ contract PanCakeFlashSwap {
     address private constant WBNB = 0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c;
     address private constant BUSD = 0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56;
     address private constant CAKE = 0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82;
-    address private constant USDT = 0x55d398326f99059fF775485246999027B3197955;
     address private constant CROX = 0x2c094F5A7D1146BB93850f629501eB749f6Ed491;
 
     // Trade Variables
@@ -53,7 +52,6 @@ contract PanCakeFlashSwap {
     // Begins receiving loan to engage performing arbitrage trades
     function startArbitrage(address _tokenBorrow, uint256 _amount) external {
         IERC20(BUSD).safeApprove(address(PANCAKE_ROUTER), MAX_INT);
-        IERC20(USDT).safeApprove(address(PANCAKE_ROUTER), MAX_INT);
         IERC20(CROX).safeApprove(address(PANCAKE_ROUTER), MAX_INT);
         IERC20(CAKE).safeApprove(address(PANCAKE_ROUTER), MAX_INT);
 
