@@ -1,7 +1,7 @@
 const { network, ethers } = require("hardhat");
 
 const fundErc20 = async (contract, sender, recepient, amount) => {
-  const FUND_AMOUNT = ethers.utils.parseUnits(amount, 18);
+  const FUND_AMOUNT = ethers.parseUnits(amount, 18);
   // fund erc20 token to the contract
   const whale = await ethers.getSigner(sender);
 
