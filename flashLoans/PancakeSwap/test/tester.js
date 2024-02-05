@@ -18,7 +18,7 @@ describe("FlashSwap Contract", () => {
 
   const DECIMALS = 18;
 
-  const BUSD_WHALE = "0x8fe348f2f890046719aacea910f01d772dc20a65";
+  const BUSD_WHALE = "0xdfd5293d8e347dfe59e90efd55b2956a1343963d";
   const BUSD = "0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56";
   const CAKE = "0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82";
   const CROX = "0x2c094F5A7D1146BB93850f629501eB749f6Ed491";
@@ -33,15 +33,12 @@ describe("FlashSwap Contract", () => {
 
     // Ensure that the WHALE has a balance
     const whale_balance = await provider.getBalance(BUSD_WHALE);
-    // Convert the string "0" to a bigint for comparison
-    const zeroBalance = BigInt("0");
-
-    expect(whale_balance).to.equal(zeroBalance);
+    await expect(whale_balance).not.equal("0");
 
     // Deploy smart contract
     const FlashSwap = await ethers.getContractFactory("PancakeFlashSwap");
     FLASHSWAP = await FlashSwap.deploy();
-    await FLASHSWAP.deployed();
+    await FLASHSWAP.waitForDeployment();
 
     // Configure our Borrowing
     const borrowAmountHuman = "1";
@@ -61,7 +58,7 @@ describe("FlashSwap Contract", () => {
   });
   
   describe("Arbitrage Execution", () => {
-    it("ensure the contract is funded", async () => {
+    it("ensures the contract is funded", async () => {
       const flashSwapBalance = await FLASHSWAP.getBalanceOfToken(
         BASE_TOKEN_ADDRESS
       );
@@ -74,7 +71,7 @@ describe("FlashSwap Contract", () => {
       console.log(flashSwapBalanceHuman);
 
       expect(Number(flashSwapBalanceHuman)).equal(Number(initialFundingHuman));
-    })
+    });
    });
 
 });

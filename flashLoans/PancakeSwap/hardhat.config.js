@@ -15,7 +15,7 @@ module.exports = {
   networks: {
     hardhat: {
       forking: {
-        url: "https://bsc-dataseed1.binance.org/",
+        url: "https://bsc-dataseed.binance.org/",
       },
     },
     testnet: {
@@ -26,7 +26,7 @@ module.exports = {
       ],
     },
     mainnet: {
-      url: "https://bsc-dataseed1.binance.org/",
+      url: "https://bsc-dataseed.binance.org/",
       chainId: 56,
     },
   },
